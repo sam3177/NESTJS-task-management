@@ -1,3 +1,5 @@
-export default interface JwtToken {
-	accessToken: string
+export default interface UserInfo {
+	accessToken: string;
+	username: string;
+	id: string;
 }

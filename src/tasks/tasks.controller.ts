@@ -9,23 +9,22 @@ import {
 	Query,
 	UseGuards,
 	Logger,
+	ConsoleLogger,
 } from '@nestjs/common';
-import { TasksService } from './tasks.service';
+import TasksService  from './tasks.service';
 import CreateTaskDto from './dto/create-task.dto';
 import GetTasksFilterDto from './dto/get-tasks-filter.dto';
 import StatusDto from './dto/status.dto';
 import Task from './task.entity';
 import { AuthGuard } from '@nestjs/passport';
-import GetUser from 'src/auth/getUser.decorator';
-import User from 'src/auth/user.entity';
+import GetUser from '../auth/getUser.decorator';
+import User from '../auth/user.entity';
 
 @Controller('tasks')
 @UseGuards(AuthGuard())
-export class TasksController {
+export default class TasksController {
 	private logger = new Logger('TasksController');
-	constructor (
-		private tasksService: TasksService,
-	) {}
+	constructor (private tasksService: TasksService) {}
 	@Get()
 	getTasks (
 		@Query() filterDto: GetTasksFilterDto,
@@ -34,6 +33,7 @@ export class TasksController {
 		this.logger.verbose(
 			`User '${user.username}' is getting his tasks!`,
 		);
+
 		return this.tasksService.getTasks(filterDto, user);
 	}
 
@@ -42,9 +42,10 @@ export class TasksController {
 		@Body() createTaskDto: CreateTaskDto,
 		@GetUser() user: User,
 	): Promise<Task> {
+		console.log('trying to post')
 		return this.tasksService.createTask(createTaskDto, user);
 	}
-	ggfv;
+	
 
 	@Get(':id')
 	getTaskById (

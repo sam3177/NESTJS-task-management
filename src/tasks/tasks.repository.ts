@@ -1,4 +1,4 @@
-import User from 'src/auth/user.entity';
+import User from '../auth/user.entity';
 import CreateTaskDto from './dto/create-task.dto';
 import GetTasksFilterDto from './dto/get-tasks-filter.dto';
 import Task from './task.entity';
@@ -9,6 +9,7 @@ import { TaskStatus } from './task-status.enum';
 @EntityRepository(Task)
 export default class TasksRepository extends Repository<Task> {
 	logger = new Logger('TaskRepository');
+	
 	async getTasks (
 		getTasksFilterDto: GetTasksFilterDto,
 		user: User,
